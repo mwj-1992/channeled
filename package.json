@@ -11,5 +11,8 @@
   "dependencies": {
     "@slack/bolt": "^3.9.0",
     "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1"
   }
 }

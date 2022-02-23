@@ -24,6 +24,7 @@ let message;
 // Fetch conversation history using the ID and a TS from the last example
 const fetchMessagesByChannelID = async (app, id, ts) => {
     try {
+        const limit = 10; // to be configured.
         if (!id) {
             console.error(`ChanneId is invalid:  ${id}`);
             return [];
@@ -37,7 +38,7 @@ const fetchMessagesByChannelID = async (app, id, ts) => {
             // latest: ts,
             // Limit results
             inclusive: true,
-            limit: 10
+            limit
         });
 
         // There should only be one result (stored in the zeroth index)
