@@ -24,25 +24,29 @@ app.message(/^(hi|hello|hey).*/, async ({ context, say }) => {
 });
 
 app.event('app_home_opened', async ({ event, client, logger }) => {
-    const message = await fetchMessagesByChannelID(app, channelId, null);
-    const messageView = postTemplate(message);
+    const messagesObject = await fetchMessagesByChannelID(app, channelId, null);
+    let messageComponents = [];
+    messagesObject.forEach(message => {
+        messageComponents.push(...postTemplate(message));
+    });
+    const blocks = [
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*Welcome home, <@" + event.user + "> :house:*"
+            }
+        },
+        ...header(),
+        ...messageComponents,
+    ];
     try {
         // Call views.publish with the built-in client
         const result = await client.views.publish({
             user_id: event.user,
             view: {
                 "type": "home",
-                "blocks": [
-                    {
-                        "type": "section",
-                        "text": {
-                            "type": "mrkdwn",
-                            "text": "*Welcome home, <@" + event.user + "> :house:*"
-                        }
-                    },
-                    ...header(),
-                    ...postTemplate(message),
-                ]
+                blocks
             }
         });
     }
@@ -51,10 +55,11 @@ app.event('app_home_opened', async ({ event, client, logger }) => {
     }
 });
 
-app.action('button_click', async ({ body, ack, say }) => {
-    // Acknowledge the action
-    await ack();
-    await say(`<@${body.user.id}> clicked the button`);
+app.action('markTheMessage', async ({ body, ack, say }) => {
+    const markAs = body?.actions[0]?.value;
+    if (markAs) {
+        await updateTheMessageStatus({ body, markAs });
+    }
 });
 
 (async () => {

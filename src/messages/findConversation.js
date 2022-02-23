@@ -9,7 +9,6 @@ const findConversation = async (app, channleName) => {
         for (const channel of result.channels) {
             if (channel.name === channleName) {
                 conversationId = channel.id;
-                console.log("Found conversation ID: " + conversationId);
                 // Break from for loop
                 break;
             }
@@ -34,17 +33,17 @@ const fetchMessagesByChannelID = async (app, id, ts) => {
             // latest: ts,
             // Limit results
             inclusive: true,
-            limit: 1
+            limit: 10
         });
 
         // There should only be one result (stored in the zeroth index)
-        message = result.messages[0];
+        message = result.messages || [];
         return message;
 
     }
     catch (error) {
         console.error(error);
-        return null;
+        return [];
     }
 }
 module.exports = { findConversation, fetchMessagesByChannelID }

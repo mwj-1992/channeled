@@ -1,5 +1,5 @@
+const { MESSAGE_STATUS } = require('../Enum');
 exports.postTemplate = (msg) => {
-    console.log(msg);
     return [
         {
             "type": "section",
@@ -24,21 +24,23 @@ exports.postTemplate = (msg) => {
                     "text": {
                         "type": "plain_text",
                         "emoji": true,
-                        "text": "Cpmplete"
+                        "text": "Copmplete"
                     },
                     "style": "primary",
-                    "value": "click_me_123"
+                    "value": MESSAGE_STATUS.COMPLETEED,
+                    "action_id": "markTheMessage"
                 },
-                {
-                    "type": "button",
-                    "text": {
-                        "type": "plain_text",
-                        "emoji": true,
-                        "text": "Open"
-                    },
-                    "style": "danger",
-                    "value": "click_me_123"
-                }
+                // {
+                //     "type": "button",
+                //     "text": {
+                //         "type": "plain_text",
+                //         "emoji": true,
+                //         "text": "Open"
+                //     },
+                //     "style": "danger",
+                //     "value": MESSAGE_STATUS.OPENED,
+                //     "action_id": "markTheMessage"
+                // }
             ]
         },
         {
