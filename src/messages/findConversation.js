@@ -24,6 +24,10 @@ let message;
 // Fetch conversation history using the ID and a TS from the last example
 const fetchMessagesByChannelID = async (app, id, ts) => {
     try {
+        if (!id) {
+            console.error(`ChanneId is invalid:  ${id}`);
+            return [];
+        }
         // Call the conversations.history method using the built-in WebClient
         const result = await app.client.conversations.history({
             // The token you used to initialize your app
